@@ -7,13 +7,22 @@ import {
 } from "react-router-dom";
 import { AdminLayout, AuthLayout, RootLayout, UserLayout } from "./layouts";
 import {
+  Activities,
+  AutoBiography,
+  BookMyDharshan,
   Contact,
   Dashboard,
+  Donate,
+  EventDetails,
+  Events,
   Home,
+  Loader,
   Login,
   NotFound,
   Profile,
   Register,
+  Workshops,
+  YendhiraKovil,
 } from "./pages";
 import { useSelector } from "react-redux";
 
@@ -23,6 +32,16 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="autobiography" element={<AutoBiography />} />
+        <Route path="activities" element={<Activities />} />
+        <Route path="workshops" element={<Workshops />} />
+        <Route path="yendhirakovil" element={<YendhiraKovil />} />
+        <Route path="donate" element={<Donate />} />
+        <Route path="book-my-dharshan" element={<BookMyDharshan />} />
+        <Route path="events">
+          <Route index element={<Events />} />
+          <Route path=":id" element={<EventDetails />} />
+        </Route>
       </Route>
       <Route element={<AuthLayout />}>
         <Route path="register" element={<Register />} />
@@ -48,7 +67,7 @@ const App = () => {
   }
 
   return (
-    <Suspense fallback={"loading"}>
+    <Suspense fallback={<Loader />}>
       <RouterProvider router={router} />
     </Suspense>
   );
