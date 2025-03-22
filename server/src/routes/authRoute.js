@@ -1,7 +1,13 @@
 import express from "express";
-import { loginUser, logoutUser } from "../controllers/authController.js";
+import {
+  emailVerification,
+  loginUser,
+  logoutUser,
+} from "../controllers/authController.js";
 
 const router = express.Router();
+
+router.post("/verify-email", emailVerification);
 
 router.post("/login", loginUser);
 
