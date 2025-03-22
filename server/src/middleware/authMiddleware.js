@@ -5,7 +5,7 @@ import asyncHandler from "express-async-handler";
 // ? using asyncHandler
 
 export const verifyJwtToken = asyncHandler(async (req, res, next) => {
-  const accessToken = req.cookies?.access_token;
+  const accessToken = req.cookies?.accessToken;
 
   if (!accessToken) {
     return res
@@ -21,6 +21,7 @@ export const verifyJwtToken = asyncHandler(async (req, res, next) => {
   }
 
   req.user = user;
+  // console.log(user);
   next(); // ? Pass control to the next middleware or route handler
 });
 
@@ -67,7 +68,9 @@ export const adminRoute = (req, res, next) => {
   ) {
     next();
   } else {
-    return res.status(403).json({ message: "Access Denied - Super Admin and Admin Only!" });
+    return res
+      .status(403)
+      .json({ message: "Access Denied - Super Admin and Admin Only!" });
   }
 };
 
