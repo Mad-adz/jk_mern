@@ -54,48 +54,53 @@ const app = express();
 // };
 
 // Define allowed origins
-const whitelist = [
-  "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
-  // process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
-];
+// const whitelist = [
+//   "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
+//   process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("CORS Origin:", origin); // Debugging log
-    console.log("Allowed Origins:", whitelist);
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin); // Debugging log
+//     console.log("Allowed Origins:", whitelist);
 
-    // Allow requests with no origin (e.g., server-to-server requests)
-    if (!origin || whitelist.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // Allow credentials (cookies, authorization headers)
-  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
-};
+//     // Allow requests with no origin (e.g., server-to-server requests)
+//     if (!origin || whitelist.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true, // Allow credentials (cookies, authorization headers)
+//   optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+// };
 
 // ✅ Handle OPTIONS preflight requests before routes
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    console.log("Handling preflight request...");
-    res.setHeader(
-      "Access-Control-Allow-Origin",
-      "https://jaikosha-client-demo.vercel.app"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    return res.sendStatus(200);
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.method === "OPTIONS") {
+//     console.log("Handling preflight request...");
+//     res.setHeader(
+//       "Access-Control-Allow-Origin",
+//       "https://jaikosha-client-demo.vercel.app"
+//     );
+//     res.setHeader(
+//       "Access-Control-Allow-Methods",
+//       "GET, POST, PUT, DELETE, OPTIONS"
+//     );
+//     res.setHeader(
+//       "Access-Control-Allow-Headers",
+//       "Content-Type, Authorization"
+//     );
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
+
+const corsOptions = {
+  origin: "*", // Allow all origins
+  credentials: false, // Disable credentials if origin is "*"
+}
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
