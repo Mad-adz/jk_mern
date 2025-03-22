@@ -14,14 +14,36 @@ const port = process.env.PORT;
 
 const app = express();
 
+// const whitelist = [
+//   process.env.CLIENT_APP_BASE_URL,
+//   "http://localhost:8080",
+//   "http://localhost:5173",
+// ];
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.some((url) => origin && origin.startsWith(url)) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
 const whitelist = [
-  process.env.CLIENT_APP_BASE_URL,
-  "http://localhost:8080",
-  "http://localhost:5173",
-];
+  process.env.CLIENT_APP_BASE_URL.replace(
+    /\/$/,
+    "https://jaikosha-client-demo.vercel.app"
+  ),
+]; // Remove trailing slash
+
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.some((url) => origin && origin.startsWith(url)) || !origin) {
+    console.log("CORS Origin:", origin); // Debugging log
+    console.log("Allowed Origin:", whitelist);
+
+    if (!origin || whitelist.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -30,6 +52,30 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
+
+// ✅ Handle OPTIONS preflight requests before routes
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    console.log("Handling preflight request...");
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      process.env.CLIENT_APP_BASE_URL
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
