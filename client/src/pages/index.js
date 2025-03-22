@@ -2,6 +2,7 @@ import { lazy } from "react";
 
 export const Register = lazy(() => import("./Register"));
 export const Login = lazy(() => import("./Login"));
+export const EmailVerification = lazy(() => import("./EmailVerification"));
 
 export const Home = lazy(() => import("./Home"));
 export const Contact = lazy(() => import("./Contact"));

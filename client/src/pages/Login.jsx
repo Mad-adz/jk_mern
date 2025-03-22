@@ -1,4 +1,7 @@
-import { loginUser } from "@/app/features/authSlice.js";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,50 +10,91 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/hooks/useAuth";
+import toast from "react-hot-toast";
+
+// import { useNavigate, Link } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { axiosAPI } from "@/api/axios";
+// import { login } from "@/app/features/authSlice";
+// import { useMutation } from "@tanstack/react-query";
+
+// const AUTH_ENDPOINT = "/api/auth";
+
+// Login API function
+// const loginAPI = async (userData) => {
+//   const response = await axiosAPI.post(`${AUTH_ENDPOINT}/login`, userData);
+//   return response.data;
+// };
 
 const Login = ({ className, ...props }) => {
-  const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
-  console.log({ status, error });
+  const { loginMutation } = useAuth(); // Access loginMutation from useAuth
+  const { mutate, isPending, isSuccess, data, isError, error } = loginMutation;
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const [showPassword, setShowPassword] = useState(false);
+
+  const formSchema = z.object({
+    email: z
+      .string()
+      .min(1, { message: "Email is required!" })
+      .email({ message: "Email format is incorrect!" }),
+    password: z
+      .string()
+      .min(1, { message: "Password is required!" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        { message: "Password format is incorrect!" }
+      ),
   });
 
+  const form = useForm({
+    defaultValues: { email: "", password: "" },
+    resolver: zodResolver(formSchema),
+  });
+
+  const {
+    handleSubmit,
+    reset,
+    register,
+    formState: { errors },
+  } = form;
+
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formData) {
-      console.log("Form Data:", formData);
-
-      try {
-        const result = await dispatch(loginUser(formData));
-        console.log("Login Result:", result);
-
-        if (result.payload) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.error("Login failed:", error);
-      }
+    if (errors.email || errors.password) {
+      toast.dismiss();
     }
+    if (errors.email) {
+      toast.error(errors.email.message);
+    } else if (errors.password) {
+      toast.error(errors.password.message);
+    }
+  }, [errors]);
+
+  // React Query Mutation for login
+  // const { mutate, isPending, isError, isSuccess } = useMutation({
+  //   mutationFn: loginAPI,
+  //   onSuccess: (data) => {
+  //     console.log("API Response:", data); // debugging
+  //     dispatch(login(data)); // save user data to Redux
+  //     navigate("/"); // redirect on success
+  //   },
+  //   onError: (error) => {
+  //     console.error("Login Error:", error.response?.data || error.message);
+  //   },
+  // });
+
+  console.log({ isPending, isSuccess, data, isError, error });
+
+  const onSubmit = (data) => {
+    mutate(data);
+    reset();
   };
 
   return (
@@ -65,18 +109,15 @@ const Login = ({ className, ...props }) => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
-                      name="email"
                       type="email"
                       placeholder="m@example.com"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
+                      {...register("email")}
                     />
                   </div>
                   <div className="grid gap-2">
@@ -91,29 +132,23 @@ const Login = ({ className, ...props }) => {
                     </div>
                     <Input
                       id="password"
-                      name="password"
                       type="password"
-                      required
-                      value={formData.password}
-                      onChange={handleChange}
+                      {...register("password")}
                     />
                   </div>
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={status === "loading"}
+                    disabled={isPending === "loading"}
                   >
-                    {status === "loading" ? "Logging in..." : "Login"}
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    Login with Google
+                    {isPending === "loading" ? "Logging in..." : "Login"}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
-                    Sign up
-                  </a>
+                  <Link to="/register" className="underline underline-offset-4">
+                    Register
+                  </Link>
                 </div>
               </form>
             </CardContent>
