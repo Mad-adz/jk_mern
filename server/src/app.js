@@ -102,29 +102,38 @@ const app = express();
 //   credentials: false, // Disable credentials if origin is "*"
 // }
 
-const whitelist = [
-  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
-  "https://jaikosha-client-demo.vercel.app",
-];
+// const whitelist = [
+//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
+//   "https://jaikosha-client-demo.vercel.app",
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("CORS Origin:", origin);
-    console.log("Allowed Origins:", whitelist);
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin);
+//     console.log("Allowed Origins:", whitelist);
 
-    if (!origin || whitelist.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.error(`Blocked by CORS: ${origin}`);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+//     if (!origin || whitelist.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       console.error(`Blocked by CORS: ${origin}`);
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
+
+app.use(cors({
+  origin: 'https://jaikosha-client-demo.vercel.app', // ensure this URL matches your frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+  credentials: true
+}));
+
+app.options('*', cors()); // Allow preflight requests for all routes
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
