@@ -31,26 +31,48 @@ const app = express();
 //   optionsSuccessStatus: 200,
 // };
 
+// const whitelist = [
+//   process.env.CLIENT_APP_BASE_URL.replace(
+//     /\/$/,
+//     "https://jaikosha-client-demo.vercel.app"
+//   ),
+// ]; // Remove trailing slash
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin); // Debugging log
+//     console.log("Allowed Origin:", whitelist);
+
+//     if (!origin || whitelist.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
+// Define allowed origins
 const whitelist = [
-  process.env.CLIENT_APP_BASE_URL.replace(
-    /\/$/,
-    "https://jaikosha-client-demo.vercel.app"
-  ),
-]; // Remove trailing slash
+  process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
+  "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
     console.log("CORS Origin:", origin); // Debugging log
-    console.log("Allowed Origin:", whitelist);
+    console.log("Allowed Origins:", whitelist);
 
+    // Allow requests with no origin (e.g., server-to-server requests)
     if (!origin || whitelist.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
-  optionsSuccessStatus: 200,
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
 };
 
 // ✅ Handle OPTIONS preflight requests before routes
