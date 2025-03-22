@@ -56,7 +56,7 @@ const app = express();
 // Define allowed origins
 const whitelist = [
   "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
-  process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
+  // process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
 ];
 
 const corsOptions = {
@@ -81,7 +81,7 @@ app.use((req, res, next) => {
     console.log("Handling preflight request...");
     res.setHeader(
       "Access-Control-Allow-Origin",
-      process.env.CLIENT_APP_BASE_URL
+      "https://jaikosha-client-demo.vercel.app"
     );
     res.setHeader(
       "Access-Control-Allow-Methods",
@@ -96,7 +96,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
