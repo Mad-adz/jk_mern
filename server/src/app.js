@@ -126,14 +126,16 @@ const app = express();
 // app.use(cors(corsOptions));
 // app.options("*", cors(corsOptions));
 
-app.use(cors({
-  origin: 'https://jaikosha-client-demo.vercel.app', // ensure this URL matches your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://jaikosha-client-demo.vercel.app", // ensure this URL matches your frontend
+    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    // allowedHeaders: ['Content-Type', 'Origin', 'Authorization'],
+    credentials: true,
+  })
+);
 
-app.options('*', cors()); // Allow preflight requests for all routes
+app.options("*", cors()); // Allow preflight requests for all routes
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
