@@ -41,8 +41,8 @@ const app = express();
 // ]; // Remove trailing slash
 
 const whitelist = [
-  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
   "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
+  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
   "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
 ];
 
