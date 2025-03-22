@@ -11,8 +11,10 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
     profile_img_url: { type: String },
-    verification_token: { type: String },
-    verification_token_expiration: { type: Date },
+    verificationOTP: { type: String },
+    verificationOTPExpiresAt: { type: Date },
+    verificationToken: { type: String },
+    verificationTokenExpiration: { type: Date },
     reset_password_token: { type: String },
     reset_password_token_expiration: { type: Date },
     role: {
