@@ -55,8 +55,8 @@ const app = express();
 
 // Define allowed origins
 const whitelist = [
-  process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
   "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
+  process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
 ];
 
 const corsOptions = {
