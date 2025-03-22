@@ -1,4 +1,7 @@
 import jaikosha from "./jaikosha.png";
+
+import user from "./user.png";
+
 import bannerImg1 from "./banner_img1.jpg";
 import bannerImg2 from "./banner_img2.jpg";
 import bannerImg3 from "./banner_img3.jpg";
@@ -68,4 +71,5 @@ export {
   spiritualClasses,
   dharshanBanner,
   upiQRCode,
+  user,
 };
