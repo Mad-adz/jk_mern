@@ -1,11 +1,11 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
-import { capitalize } from "../utils/helper.js";
+import { capitalize, generateOTP } from "../utils/helper.js";
 import { validateRegister } from "../validators/userValidators.js";
+import { sendVerificationEmail } from "../utils/verifyEmail.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   const { error, value } = validateRegister(req.body);
-  // console.log(error, value);
   if (error) {
     res.status(400);
     throw new Error(error.details[0].message);
@@ -23,23 +23,33 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Email is already registered.!");
   }
 
+  const verificationOTP = generateOTP();
+  const expiryDate = new Date();
+  const expiryMinutes = expiryDate.getMinutes() + 5;
+  expiryDate.setMinutes(expiryMinutes);
+  const verificationOTPExpiresAt = expiryDate;
+
   const user = await User.create({
     fname,
     lname,
     email,
     password,
+    verificationOTP,
+    verificationOTPExpiresAt,
   });
 
   if (user) {
-    res.status(201).json({
-      _id: user._id,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isVerified: user.isVerified,
-      fname: user.fname,
-      lname: user.lname,
-      role: user.role,
-    });
+    const verificationEmailResponse = await sendVerificationEmail(
+      user.email,
+      user.fname,
+      user.lname,
+      user.verificationOTP
+    );
+    if (verificationEmailResponse.error) {
+      res.status(400);
+      throw new Error("Failed to send verification otp.!");
+    }
+    res.status(200).json({ message: "Verification otp sent.!" });
   } else {
     res.status(400);
     throw new Error("Registration failed.!");
