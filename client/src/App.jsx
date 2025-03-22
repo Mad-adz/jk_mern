@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -21,10 +21,14 @@ import {
   NotFound,
   Profile,
   Register,
+  EmailVerification,
   Workshops,
   YendhiraKovil,
 } from "./pages";
-import { useSelector } from "react-redux";
+import { useUser } from "./hooks/useUser";
+import { useDispatch, useSelector } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
+import { setCurrentUser } from "./app/features/userSlice";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +50,7 @@ const router = createBrowserRouter(
       <Route element={<AuthLayout />}>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
+        <Route path="verify-email" element={<EmailVerification />} />
       </Route>
       <Route element={<UserLayout />}>
         <Route path="profile" element={<Profile />} />
@@ -60,12 +65,26 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
-  const userData = useSelector((state) => state?.user);
-  if (userData) {
-    const { status, error, data } = userData;
-    console.log({ status, error, data });
-  }
+  // const { getUserQuery } = useUser();
+  // const { isLoading, isSuccess, data, isError, error } = getUserQuery;
+  // const dispatch = useDispatch();
+  // const queryClient = useQueryClient();
 
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     dispatch(setCurrentUser(data)); // Set user in Redux
+  //   }
+  //   // queryClient.invalidateQueries(["user"]); // Ensure refetch on mount
+  // }, [isSuccess, data, dispatch, queryClient]);
+
+  // if (isLoading) {
+  //   return <div>Loading user...</div>;
+  // }
+
+  // if (isError) {
+  //   console.log(error);
+  //   return <div>Error loading user data. Please try again.</div>;
+  // }
   return (
     <Suspense fallback={<Loader />}>
       <RouterProvider router={router} />
