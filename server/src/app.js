@@ -33,12 +33,18 @@ const app = express();
 
 // # Example 1
 
+// const whitelist = [
+//   process.env.CLIENT_APP_BASE_URL.replace(
+//     /\/$/,
+//     "https://jaikosha-client-demo.vercel.app"
+//   ),
+// ]; // Remove trailing slash
+
 const whitelist = [
-  process.env.CLIENT_APP_BASE_URL.replace(
-    /\/$/,
-    "https://jaikosha-client-demo.vercel.app"
-  ),
-]; // Remove trailing slash
+  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
+  "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
+  "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
