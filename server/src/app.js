@@ -31,6 +31,8 @@ const app = express();
 //   optionsSuccessStatus: 200,
 // };
 
+// # Example 1
+
 const whitelist = [
   process.env.CLIENT_APP_BASE_URL.replace(
     /\/$/,
@@ -53,11 +55,17 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-// Define allowed origins
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+// # Example 2
+
 // const whitelist = [
-//   "https://jaikosha-client-demo.vercel.app", // Add additional allowed origins if needed
-//   process.env.CLIENT_APP_BASE_URL, // Use the environment variable directly
-// ];
+//   process.env.CLIENT_APP_BASE_URL.replace(
+//     /\/$/,
+//     "https://jaikosha-client-demo.vercel.app"
+//   ),
+// ]; // Remove trailing slash
 
 // const corsOptions = {
 //   origin: function (origin, callback) {
@@ -97,10 +105,20 @@ const corsOptions = {
 //   next();
 // });
 
+// app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
+
+// # Example 3
+
 // const corsOptions = {
 //   origin: "*", // Allow all origins
 //   credentials: false, // Disable credentials if origin is "*"
 // }
+
+// app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
+
+// # Example 4
 
 // const whitelist = [
 //   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
@@ -123,8 +141,10 @@ const corsOptions = {
 //   optionsSuccessStatus: 200,
 // };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
+
+// # Example 5
 
 // app.use(
 //   cors({
@@ -137,7 +157,6 @@ app.options("*", cors(corsOptions));
 
 // app.options("*", cors()); // Allow preflight requests for all routes
 
-// // Add CORS headers to all responses (optional, but recommended)
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "https://jaikosha-client-demo.vercel.app");
 //   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
