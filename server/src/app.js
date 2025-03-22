@@ -97,10 +97,31 @@ const app = express();
 //   next();
 // });
 
+// const corsOptions = {
+//   origin: "*", // Allow all origins
+//   credentials: false, // Disable credentials if origin is "*"
+// }
+
+const whitelist = [
+  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
+  "https://jaikosha-client-demo.vercel.app",
+];
+
 const corsOptions = {
-  origin: "*", // Allow all origins
-  credentials: false, // Disable credentials if origin is "*"
-}
+  origin: function (origin, callback) {
+    console.log("CORS Origin:", origin);
+    console.log("Allowed Origins:", whitelist);
+
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.error(`Blocked by CORS: ${origin}`);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
