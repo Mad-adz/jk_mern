@@ -32,29 +32,29 @@ const app = express();
 
 // # Example 1
 
-// const whitelist = [
-//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
-//   "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
-//   "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
-// ];
+const whitelist = [
+  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
+  "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
+  "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
+];
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     console.log("CORS Origin:", origin); // Debugging log
-//     console.log("Allowed Origin:", whitelist);
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("CORS Origin:", origin); // Debugging log
+    console.log("Allowed Origin:", whitelist);
 
-//     if (!origin || whitelist.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
-// app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // # Example 2
 
@@ -166,40 +166,40 @@ const app = express();
 
 // # Example 6
 
-const whitelist = [...new Set([
-  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), 
-  "https://jaikosha-client-demo.vercel.app", 
-  "http://localhost:5173"
-])].filter(Boolean); // Remove duplicates and empty values
+// const whitelist = [...new Set([
+//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), 
+//   "https://jaikosha-client-demo.vercel.app", 
+//   "http://localhost:5173"
+// ])].filter(Boolean); // Remove duplicates and empty values
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("CORS Origin:", origin); // Debugging log
-    console.log("Allowed Origins:", whitelist);
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin); // Debugging log
+//     console.log("Allowed Origins:", whitelist);
 
-    if (!origin) {
-      console.log("✅ Allowing request with no origin (e.g., same-origin, server-to-server)");
-      return callback(null, true); // Allow requests without Origin header
-    }
+//     if (!origin) {
+//       console.log("✅ Allowing request with no origin (e.g., same-origin, server-to-server)");
+//       return callback(null, true); // Allow requests without Origin header
+//     }
 
-    if (whitelist.includes(origin)) {
-      console.log("✅ Allowed by CORS:", origin);
-      return callback(null, true);
-    } else {
-      console.log("❌ Blocked by CORS:", origin);
-      return callback(null, false); // Instead of throwing an error
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+//     if (whitelist.includes(origin)) {
+//       console.log("✅ Allowed by CORS:", origin);
+//       return callback(null, true);
+//     } else {
+//       console.log("❌ Blocked by CORS:", origin);
+//       return callback(null, false); // Instead of throwing an error
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
 
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", whitelist.includes(req.headers.origin) ? req.headers.origin : "");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.sendStatus(200);
-});
+// app.options("*", (req, res) => {
+//   res.header("Access-Control-Allow-Origin", whitelist.includes(req.headers.origin) ? req.headers.origin : "");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.sendStatus(200);
+// });
 
 
 app.use(express.json());
