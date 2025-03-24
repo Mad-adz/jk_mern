@@ -32,18 +32,39 @@ const app = express();
 
 // # Example 1
 
-const whitelist = [
+// const whitelist = [
+//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
+//   "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
+//   "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
+// ];
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin); // Debugging log
+//     console.log("Allowed Origin:", whitelist);
+
+//     if (!origin || whitelist.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
+const whitelist = new Set([
   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
   "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
-  "http://localhost:5173".replace(/\/$/, ""), // Explicitly add production URL
-];
+  "http://localhost:5173".replace(/\/$/, ""), // Explicitly add development URL
+]);
 
 const corsOptions = {
   origin: function (origin, callback) {
     console.log("CORS Origin:", origin); // Debugging log
-    console.log("Allowed Origin:", whitelist);
+    console.log("Allowed Origins:", [...whitelist]); // Convert Set to array for logging
 
-    if (!origin || whitelist.includes(origin)) {
+    if (!origin || whitelist.has(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
