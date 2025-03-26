@@ -229,6 +229,14 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
+// Serve static files from React
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+// Handle client-side routing - return index.html for all unknown routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
+});
+
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
