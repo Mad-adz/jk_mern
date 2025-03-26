@@ -1,5 +1,4 @@
 import express from "express";
-import path from 'path';
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -7,12 +6,19 @@ import authRoutes from "./routes/authRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import connectMongoDB from "./config/mongo/dbConfig.js";
 import cors from "cors";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
 
 dotenv.config();
 connectMongoDB();
 
 const port = process.env.PORT;
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // const whitelist = [
 //   process.env.CLIENT_APP_BASE_URL,
@@ -231,11 +237,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 // Serve static files from React
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
 // Handle client-side routing - return index.html for all unknown routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
 app.get("/", (req, res) => {
