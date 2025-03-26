@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   isAuthenticated: JSON.parse(localStorage.getItem("isAuthenticated")) || false,
-  // token: JSON.parse(localStorage.getItem("token")) || null,
+  authToken: localStorage.getItem("authToken") || null,
 };
 
 const authSlice = createSlice({
@@ -14,19 +14,18 @@ const authSlice = createSlice({
       console.log("Login Action Payload:", action.payload); // Debugging
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      // state.token = action.payload.token;
+      state.authToken = action.payload.authToken;
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       localStorage.setItem("user", JSON.stringify(action.payload.user)); // ✅ Correct
-      // localStorage.setItem("user", action.payload.user);
-      // localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("authToken", action.payload.authToken);
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      // state.token = null;
+      state.authToken = null;
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
-      // localStorage.removeItem("token");
+      localStorage.removeItem("authToken");
     },
     verifyEmail: (state) => {
       if (state.user) {

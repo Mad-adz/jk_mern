@@ -26,10 +26,12 @@ export const useAuth = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const { isAuthenticated, user: userData } = useSelector(
-    (state) => state.auth
-  );
-  console.log({ isAuthenticated, userData });
+  const {
+    isAuthenticated,
+    user: userData,
+    authToken,
+  } = useSelector((state) => state.auth);
+  console.log({ isAuthenticated, userData, authToken });
 
   // Login Mutation
   const loginMutation = useMutation({

@@ -20,8 +20,11 @@ const ProfileMenu = () => {
   const { logoutMutation } = useAuth(); // Access loginMutation from useAuth
   const { mutate, isPending, isSuccess, data, isError, error } = logoutMutation;
 
+  console.log({ isPending, isSuccess, data, isError, error });
+
   const logoutHandler = async () => {
-    alert("Logged out!");
+    console.log("Logout button clicked");
+    alert("Log out?");
     mutate();
   };
   return (

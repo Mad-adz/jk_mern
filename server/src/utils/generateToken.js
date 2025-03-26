@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
-export const generateJwtToken = (res, id) => {
-  const accessToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+export const generateJwtToken = (res, id, tokenName) => {
+  const authToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
   });
 
@@ -12,12 +12,12 @@ export const generateJwtToken = (res, id) => {
     sameSite: isProduction ? "None" : "Strict", // ? prevents CSRF attack, cross-site request forgery attack
   };
 
-  res.cookie("accessToken", accessToken, {
+  res.cookie("authToken", authToken, {
     ...cookieOptions,
     maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
   });
 
-  return { accessToken };
+  return { authToken };
 };
 
 // export const generateRefreshAndAccessToken = (res, id) => {

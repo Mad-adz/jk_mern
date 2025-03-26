@@ -51,7 +51,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     // Generate JWT Token
-    const { accessToken } = generateJwtToken(res, user._id, "token");
+    const { authToken } = generateJwtToken(res, user._id);
 
     // Return response in desired format
     res.status(200).json({
@@ -63,7 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
         fname: user.fname,
         lname: user.lname,
       },
-      token: accessToken,
+      authToken,
     });
   } else {
     const verificationOTP = generateOTP();
@@ -112,15 +112,14 @@ const emailVerification = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
   const isProduction = process.env.NODE_ENV === "production";
-  const accessToken = req.cookies?.accessToken;
-
-  if (!accessToken) {
+  const authToken = req.cookies?.authToken;
+  if (!authToken) {
     return res.sendStatus(204);
   }
-  const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+  const decoded = jwt.verify(authToken, process.env.ACCESS_TOKEN_SECRET);
   console.log(decoded);
 
-  res.clearCookie("accessToken", {
+  res.clearCookie("authToken", {
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction ? "None" : "Strict",

@@ -61,8 +61,8 @@ const whitelist = new Set([
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log("CORS Origin:", origin); // Debugging log
-    console.log("Allowed Origins:", [...whitelist]); // Convert Set to array for logging
+    // console.log("CORS Origin:", origin); // Debugging log
+    // console.log("Allowed Origins:", [...whitelist]); // Convert Set to array for logging
 
     if (!origin || whitelist.has(origin)) {
       callback(null, true);
@@ -188,8 +188,8 @@ app.options("*", cors(corsOptions));
 // # Example 6
 
 // const whitelist = [...new Set([
-//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), 
-//   "https://jaikosha-client-demo.vercel.app", 
+//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""),
+//   "https://jaikosha-client-demo.vercel.app",
 //   "http://localhost:5173"
 // ])].filter(Boolean); // Remove duplicates and empty values
 
@@ -221,7 +221,6 @@ app.options("*", cors(corsOptions));
 //   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 //   res.sendStatus(200);
 // });
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
