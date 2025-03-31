@@ -9,7 +9,7 @@ export const generateJwtToken = (res, id, tokenName) => {
   const cookieOptions = {
     httpOnly: true, // ? prevent XSS attacks, cross site scripting attack
     secure: isProduction,
-    sameSite: isProduction ? "None" : "Strict", // ? prevents CSRF attack, cross-site request forgery attack
+    sameSite: isProduction ? "None" : "Lax", // ? prevents CSRF attack, cross-site request forgery attack
   };
 
   res.cookie("authToken", authToken, {
