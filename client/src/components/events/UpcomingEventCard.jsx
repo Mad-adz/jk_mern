@@ -27,9 +27,9 @@ const UpcomingEventCard = ({
           </p>
         </Link>
         <div className="flex gap-2">
-          <p className="w-min rounded-full bg-green-100 px-4 py-1 text-emerald-500 text-sm">
+          {/* <p className="w-min rounded-full bg-green-100 px-4 py-1 text-emerald-500 text-sm">
             {fees}
-          </p>
+          </p> */}
           <p className="flex gap-2">
             {tags?.map((tag, index) => (
               <span
@@ -42,18 +42,21 @@ const UpcomingEventCard = ({
           </p>
         </div>
 
-        <p className="text-gray-500">
+        {/* <p className="text-gray-500">
           {datetime} | {location}
-        </p>
+        </p> */}
 
         <p>{truncateText(description)}</p>
 
         <div className="flex justify-between items-center w-full">
           <p className=" text-gray-600">by {organizer}</p>
 
-          <Link to={url} className="flex gap-2">
+          {/* <Link to={url} className="flex gap-2">
             <span className="text-gray-500">Explore</span>
-          </Link>
+          </Link> */}
+          <p className="flex gap-2 cursor-pointer">
+            <span className="text-gray-500">Explore</span>
+          </p>
         </div>
       </div>
     </div>
