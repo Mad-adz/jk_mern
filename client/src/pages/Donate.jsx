@@ -1,9 +1,43 @@
 import { donationBanner, upiQRCode } from "@/assets/images";
 import { PanoramicBanner } from "@/components";
+import { Helmet } from "react-helmet-async";
 
 const Donate = () => {
   return (
     <main>
+      {/* SEO Optimization */}
+      <Helmet>
+        <title>Donate | Support Jai Kosha Foundation</title>
+        <meta
+          name="description"
+          content="Support Jai Kosha Foundation by making a donation. Help maintain the ashram, provide healing services, and organize spiritual retreats."
+        />
+        <meta
+          name="keywords"
+          content="Donate, support ashram, Jai Kosha Foundation, spiritual healing, charity, community welfare, donation options"
+        />
+        <meta name="author" content="Jai Kosha Foundation" />
+        <meta name="robots" content="index, follow" />
+        <meta
+          property="og:title"
+          content="Donate | Support Jai Kosha Foundation"
+        />
+        <meta
+          property="og:description"
+          content="Support Jai Kosha Foundation by making a donation. Help maintain the ashram, provide healing services, and organize spiritual retreats."
+        />
+        <meta property="og:image" content={donationBanner} />
+        <meta property="og:url" content="https://jaikosha.com/donate" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Donate | Support Jai Kosha Foundation"
+        />
+        <meta
+          name="twitter:description"
+          content="Make a difference with your contribution to Jai Kosha Foundation."
+        />
+      </Helmet>
       <PanoramicBanner bgImg={donationBanner} title={"Donations"} />
       <section className="bg-yellow-50/50 py-12 antialiased text-lg font-normal">
         <div className="container">
@@ -124,7 +158,7 @@ const Donate = () => {
             <img
               src={upiQRCode}
               alt="Jai Kosha Foundation"
-              className="w-full object-cover"
+              className="w-full object-cover" loading="lazy"
             />
           </div>
         </div>

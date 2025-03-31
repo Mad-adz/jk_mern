@@ -1,9 +1,22 @@
 import { eventBanner2 } from "@/assets/images";
 import { UpcomingEventsSection } from "@/sections";
+import { Helmet } from "react-helmet-async";
 
 const Events = () => {
   return (
     <main className="mt-[6rem]">
+      {/* SEO Metadata */}
+      <Helmet>
+        <title>Upcoming Spiritual Events - Divine Awakening</title>
+        <meta
+          name="description"
+          content="Join us for an uplifting spiritual event filled with divine wisdom, healing, and enlightenment. Stay updated and embark on a sacred journey."
+        />
+        <meta
+          name="keywords"
+          content="spiritual event, meditation, yoga retreat, divine awakening"
+        />
+      </Helmet>
       <section
         className="grid h-screen w-full bg-cover bg-center bg-no-repeat]"
         style={{
@@ -49,6 +62,49 @@ const Events = () => {
         </div>
       </section>
       <UpcomingEventsSection />
+      {/* Structured Data for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Event",
+          name: "Divine Awakening Retreat",
+          startDate: "2024-06-20T09:00",
+          endDate: "2024-06-22T17:00",
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          eventStatus: "https://schema.org/EventScheduled",
+          location: {
+            "@type": "Place",
+            name: "Sree Agam Ashram",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "123 Spiritual Path",
+              addressLocality: "Chennai",
+              postalCode: "600001",
+              addressCountry: "IN",
+            },
+          },
+          image: eventBanner2,
+          description:
+            "Join us for a life-changing spiritual retreat featuring yoga, meditation, and divine teachings.",
+          offers: {
+            "@type": "Offer",
+            url: "https://sreeagamashram.com/events",
+            price: "0",
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            validFrom: "2024-05-01T00:00",
+          },
+          performer: {
+            "@type": "Person",
+            name: "Spiritual Guru",
+          },
+          organizer: {
+            "@type": "Organization",
+            name: "Sree Agam Ashram",
+            url: "https://sreeagamashram.com",
+          },
+        })}
+      </script>
     </main>
   );
 };
