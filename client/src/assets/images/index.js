@@ -73,3 +73,30 @@ export {
   upiQRCode,
   user,
 };
+
+export { default as pooja1 } from "./activities/pooja/DA4A7854.jpg";
+export { default as pooja2 } from "./activities/pooja/DA4A7869.jpg";
+export { default as pooja3 } from "./activities/pooja/DA4A7909.jpg";
+export { default as pooja4 } from "./activities/pooja/DA4A7938.jpg";
+export { default as pooja5 } from "./activities/pooja/DA4A8018.jpg";
+export { default as pooja6 } from "./activities/pooja/DA4A8123.jpg";
+export { default as pooja7 } from "./activities/pooja/DA4A8177.jpg";
+export { default as pooja8 } from "./activities/pooja/DA4A8231.jpg";
+export { default as pooja9 } from "./activities/pooja/DA4A8252.jpg";
+export { default as pooja10 } from "./activities/pooja/DA4A8254.jpg";
+
+export { default as cultural1 } from "./activities/cultural_events/DA4A7738.jpg";
+export { default as cultural2 } from "./activities/cultural_events/DA4A7745.jpg";
+export { default as cultural3 } from "./activities/cultural_events/DA4A7749.jpg";
+export { default as cultural4 } from "./activities/cultural_events/DA4A7813.jpg";
+export { default as cultural5 } from "./activities/cultural_events/DA4A7836.jpg";
+export { default as cultural6 } from "./activities/cultural_events/DA4A7846.jpg";
+
+export { default as temple1 } from "./activities/temple/DA4A7705.jpg";
+export { default as temple2 } from "./activities/temple/DA4A7715.jpg";
+export { default as temple3 } from "./activities/temple/DA4A7719.jpg";
+export { default as temple4 } from "./activities/temple/DA4A7762.jpg";
+export { default as temple5 } from "./activities/temple/DA4A7768.jpg";
+export { default as temple6 } from "./activities/temple/DA4A7776.jpg";
+export { default as temple7 } from "./activities/temple/DA4A8240.jpg";
+export { default as temple8 } from "./activities/temple/DA4A8260.jpg";
