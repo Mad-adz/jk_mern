@@ -97,7 +97,7 @@ const Header = () => {
                             <LuChevronDown />
                           </button>
                           <span
-                            className={`absolute right-0 w-32 mt-0 origin-top-right rounded-md shadow-lg bg-white
+                            className={`absolute right-0 top-9 w-32 mt-0 origin-top-right rounded-md shadow-lg bg-white
                           transition-transform transform ease-out duration-100 
                           ${
                             openDropdown[link.openKey]
@@ -106,7 +106,7 @@ const Header = () => {
                           }`}
                           >
                             {/* Submenu */}
-                            <ul className="py-1 bg-yellow-100/30 rounded-md shadow-xs">
+                            <ul className="bg-yellow-100/30 rounded-md shadow-xs">
                               {link.submenu.map((sublink) => (
                                 <li key={sublink.id}>
                                   <NavLink

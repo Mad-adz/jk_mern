@@ -26,6 +26,7 @@ const Footer = () => {
                           width="64"
                           height="64"
                           className="w-16"
+                          loading="lazy"
                         />
                       </span>
                       <span className="text-white">
