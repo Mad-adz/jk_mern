@@ -60,6 +60,7 @@ const TestimonialsSection = () => {
                           className="w-10 h-10 rounded-full"
                           src={item.image}
                           alt={item.name}
+                          loading="lazy"
                         />
                         <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
                           <div className="pr-3 font-medium text-gray-900 dark:text-white">
