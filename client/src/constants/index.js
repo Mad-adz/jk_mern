@@ -223,8 +223,8 @@ export const addresses = [
   {
     id: 3,
     title: "24/7 Quick Contact",
-    email: { label: "Email", value: "enquiries@jaikosha.com" },
-    mobile: { label: "Mobile", value: "9489889848" },
+    email: { label: "Email", value: "jaikoshafoundation24@gmail.com" },
+    mobile: { label: "Mobile", value: "+919042557589" },
     description: [
       { label: "Working Hours", value: "Mon-Sat" },
       { label: "Morning", value: "10.00 AM - 1.00 PM" },
