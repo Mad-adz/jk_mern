@@ -6,10 +6,8 @@ import authRoutes from "./routes/authRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import connectMongoDB from "./config/mongo/dbConfig.js";
 import cors from "cors";
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 connectMongoDB();
@@ -20,24 +18,39 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// const whitelist = [
-//   process.env.CLIENT_APP_BASE_URL,
-//   "http://localhost:8080",
-//   "http://localhost:5173",
-// ];
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.some((url) => origin && origin.startsWith(url)) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
+const whitelist = new Set([
+  process.env.CLIENT_APP_BASE_URL,
+  "https://jaikosha-client-demo.vercel.app",
+  "http://localhost:5173",
+]);
 
-// # Example 1
+const corsOptions = {
+  origin: function (origin, callback) {
+    // if (!origin || whitelist.some((url) => origin && origin.startsWith(url))) {
+    //   console.log("✅ Allowed by CORS:", origin);
+    //   callback(null, true);
+    // } else {
+    //   callback(new Error("Not allowed by CORS"));
+    // }
+    // if (!origin || whitelist.includes(origin)) {
+    //   callback(null, true);
+    // } else {
+    //   callback(new Error("Not allowed by CORS"));
+    // }
+    if (!origin || whitelist.has(origin)) {
+      console.log("✅ Allowed by CORS:", origin);
+      callback(null, origin);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+// # Example 0
 
 // const whitelist = [
 //   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
@@ -60,29 +73,31 @@ const __dirname = path.dirname(__filename);
 //   optionsSuccessStatus: 200,
 // };
 
-const whitelist = new Set([
-  process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""), // Remove trailing slash
-  "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""), // Explicitly add production URL
-  "http://localhost:5173".replace(/\/$/, ""), // Explicitly add development URL
-]);
+// # Example 1
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // console.log("CORS Origin:", origin); // Debugging log
-    // console.log("Allowed Origins:", [...whitelist]); // Convert Set to array for logging
+// const whitelist = new Set([
+//   process.env.CLIENT_APP_BASE_URL?.replace(/\/$/, ""),
+//   "https://jaikosha-client-demo.vercel.app".replace(/\/$/, ""),
+//   "http://localhost:5173".replace(/\/$/, ""),
+// ]);
 
-    if (!origin || whitelist.has(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("CORS Origin:", origin);
+//     console.log("Allowed Origins:", [...whitelist]);
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+//     if (!origin || whitelist.has(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
+// app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
 
 // # Example 2
 
@@ -229,6 +244,26 @@ app.options("*", cors(corsOptions));
 //   res.sendStatus(200);
 // });
 
+// # Example 7
+
+// const whitelist = new Set([
+//   process.env.CLIENT_APP_BASE_URL,
+//   "https://jaikosha-client-demo.vercel.app",
+//   "http://localhost:5173"
+// ]);
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.some((url) => origin && origin.startsWith(url)) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -237,11 +272,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 // Serve static files from React
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+app.use(express.static(path.join(__dirname, "client", "dist")));
 
 // Handle client-side routing - return index.html for all unknown routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.get("/", (req, res) => {
