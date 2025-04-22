@@ -6,16 +6,20 @@ export const generateJwtToken = (res, id, tokenName) => {
   });
 
   const isProduction = process.env.NODE_ENV === "production";
+  console.log(isProduction);
   const cookieOptions = {
     httpOnly: true, // ? prevent XSS attacks, cross site scripting attack
     secure: isProduction,
     sameSite: isProduction ? "None" : "Lax", // ? prevents CSRF attack, cross-site request forgery attack
   };
+  console.log(cookieOptions);
 
   res.cookie("authToken", authToken, {
     ...cookieOptions,
     maxAge: Number(process.env.ACCESS_TOKEN_MAX_AGE),
   });
+
+  console.log(Number(process.env.ACCESS_TOKEN_MAX_AGE));
 
   return { authToken };
 };
