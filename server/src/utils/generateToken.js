@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const generateJwtToken = (res, id, tokenName) => {
+export const generateJwtToken = (res, id) => {
   const authToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
   });
@@ -11,6 +11,7 @@ export const generateJwtToken = (res, id, tokenName) => {
     httpOnly: true, // ? prevent XSS attacks, cross site scripting attack
     secure: isProduction,
     sameSite: isProduction ? "None" : "Lax", // ? prevents CSRF attack, cross-site request forgery attack
+    domain: ".onrender.com",
   };
   console.log(cookieOptions);
 
