@@ -11,7 +11,7 @@ export const generateJwtToken = (res, id) => {
     httpOnly: true, // ? prevent XSS attacks, cross site scripting attack
     secure: isProduction,
     sameSite: isProduction ? "None" : "Lax", // ? prevents CSRF attack, cross-site request forgery attack
-    domain: ".onrender.com",
+    domain: isProduction ? ".onrender.com" : undefined,
   };
   console.log(cookieOptions);
 

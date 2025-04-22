@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   isAuthenticated: JSON.parse(localStorage.getItem("isAuthenticated")) || false,
-  authToken: localStorage.getItem("authToken") || null,
 };
 
 const authSlice = createSlice({
@@ -11,26 +10,22 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      console.log("Login Action Payload:", action.payload); // Debugging
+      console.log("Login Action Payload:", action.payload);
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.authToken = action.payload.authToken;
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
-      localStorage.setItem("user", JSON.stringify(action.payload.user)); // ✅ Correct
-      localStorage.setItem("authToken", action.payload.authToken);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      state.authToken = null;
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
-      localStorage.removeItem("authToken");
     },
     verifyEmail: (state) => {
       if (state.user) {
         state.user = { ...state.user, isVerified: true };
-        localStorage.setItem("user", JSON.stringify(state.user)); // ✅ Correct
+        localStorage.setItem("user", JSON.stringify(state.user));
       }
     },
   },
@@ -44,7 +39,6 @@ export default authSlice.reducer;
 
 // const AUTH_ENDPOINT = "/api/auth";
 
-// // Async thunk for user login
 // export const loginUser = createAsyncThunk(
 //   "auth/login",
 //   async (userData, { rejectWithValue }) => {
@@ -65,7 +59,6 @@ export default authSlice.reducer;
 //   }
 // );
 
-// // Async thunk for user logout
 // export const logoutUser = createAsyncThunk(
 //   "auth/logout",
 //   async (credentials, { rejectWithValue }) => {

@@ -50,12 +50,9 @@ const loginUser = asyncHandler(async (req, res) => {
       await user.save();
     }
 
-    // Generate JWT Token
     const { authToken } = generateJwtToken(res, user._id);
 
-    // Return response in desired format
     res.status(200).json({
-      // message: `Welcome back ${user.fname}`,
       user: {
         _id: user._id,
         email: user.email,

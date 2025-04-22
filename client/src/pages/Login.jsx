@@ -35,7 +35,7 @@ const Login = ({ className, ...props }) => {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
 
-  const { loginMutation } = useAuth(); // Access loginMutation from useAuth
+  const { loginMutation } = useAuth();
   const { mutate, isPending, isSuccess, data, isError, error } = loginMutation;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -77,7 +77,7 @@ const Login = ({ className, ...props }) => {
     }
   }, [errors]);
 
-  // React Query Mutation for login
+  // # React Query Mutation for login
   // const { mutate, isPending, isError, isSuccess } = useMutation({
   //   mutationFn: loginAPI,
   //   onSuccess: (data) => {
